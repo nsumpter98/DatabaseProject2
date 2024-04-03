@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card" style="--bs-card-height: 100%">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title">Delete All</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="deleteall" action="" method="POST">
+                            {% csrf_token %}
+
+
+                            <div class="mb-3">
+                                <label for="auth" class="form-label">Auth Code</label>
+                                <input class="form-control" type="text" id="auth" name="auth">
+                            </div>
+
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-muted">
+                        This will delete all data in the database.
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title">Upload CSV File</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="upload" action="/dev" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <div class="mb-3">
+                                <label for="csvFileInput" class="form-label">Auth Code</label>
+                                <input class="form-control" type="text" id="auth" name="auth">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="csvFileInput" class="form-label">Select CSV file</label>
+                                <input class="form-control" type="file" id="csvFileInput" name="csvfile" accept="*">
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-success">Upload</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-muted">
+                        Please ensure the file is in CSV format.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div id="preview_card" class="row justify-content-center mt-5" style="display: none">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title">Preview top 5</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Gender</th>
+                                <th>Age</th>
+                                <th>Education</th>
+                                <th>Occupation</th>
+                                <th>Marital Status</th>
+                                <th>Product Rating</th>
+                            </tr>
+                            </thead>
+                            <tbody id="csvPreview">
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="row justify-content-center mt-5">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title">Data in Database</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Gender</th>
+                                <th>Age</th>
+                                <th>Education</th>
+                                <th>Occupation</th>
+                                <th>Marital Status</th>
+                                <th>Product Rating</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for person in persons %}
+                                <tr>
+                                    <td>{{ person.customer_id }}</td>
+                                    <td>{{ person.gender }}</td>
+                                    <td>{{ person.age }}</td>
+                                    <td>{{ person.education }}</td>
+                                    <td>{{ person.occupation }}</td>
+                                    <td>{{ person.marital_status }}</td>
+                                    <td>{{ person.product_rating }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        //on window load
+        window.onload = function () {
+            document.getElementById('csvFileInput').onchange = function (event) {
+                console.log('File selected')
+                console.log(event.target.files[0]);
+                var reader = new FileReader();
+                //load top 5 rows
+                reader.readAsText(event.target.files[0]);
+
+
+                reader.onload = function () {
+                    var preview = document.getElementById('csvPreview');
+                    preview.innerHTML = '';
+                    //un hide
+
+                    var lines = reader.result.split('\n');
+                    for (var i = 1; i < 5; i++) {
+                        var line = lines[i].split(',');
+                        var row = document.createElement('tr');
+                        for (var j = 0; j < line.length; j++) {
+                            var cell = document.createElement('td');
+                            cell.textContent = line[j];
+                            row.appendChild(cell);
+                        }
+                        preview.appendChild(row);
+                    }
+                    //un hide
+                    document.getElementById('preview_card').style.display = 'block';
+
+                }
+            };
+
+            //on form submit hide the preview
+            document.getElementById('upload').onsubmit = function (event) {
+                document.getElementById('preview_card').style.display = 'none';
+            };
+
+            document.getElementById('deleteall').onsubmit = function (event) {
+                event.preventDefault();
+                var auth = document.getElementById('auth').value;
+
+                if (confirm('Are you sure you want to delete all data?')) {
+                    fetch('/api/dev/person/deleteall', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        },
+                        body: JSON.stringify({auth_code: auth})
+                    }).then(function (response) {
+                        if (response.ok) {
+                            alert('All data deleted');
+                            location.reload();
+                        } else {
+                            alert('Error deleting data');
+                        }
+                    });
+                }
+            };
+
+        }
+
+
+    </script>
+
+
+
+
+{% endblock %}
+
+
+

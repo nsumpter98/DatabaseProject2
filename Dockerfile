@@ -8,7 +8,7 @@ COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 
-
+RUN pip install mysqlclient  # Install the mysqlclient package
 
 # Mounts the application code to the image
 COPY . code

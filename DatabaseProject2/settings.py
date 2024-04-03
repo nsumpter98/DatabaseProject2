@@ -30,7 +30,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "localhost",
     "*",
-    "database-project-django-frontend.3hfx6a.easypanel.host"
+    "database-project-django-frontend.3hfx6a.easypanel.host",
+"cs.sumptersoftware.com"
 ]
 
 # Application definition

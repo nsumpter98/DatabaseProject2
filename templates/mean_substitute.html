@@ -2,5 +2,112 @@
 
 {% block content %}
     <h1>Mean substitute</h1>
-    <p>Mean substitute is a simple method to handle missing data. It replaces missing values with the mean of the column.</p>
+    <p>Mean substitute is a simple method to handle missing data. It replaces missing values with the mean of the
+        column.</p>
+
+    {% comment %}boostrap card{% endcomment %}
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Data before mean substitution</h5>
+            <p class="card-text">The data before mean substitution is shown below.</p>
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Gender</th>
+                            <th>Age</th>
+                            <th>Education</th>
+                            <th>Occupation</th>
+                            <th>Marital Status</th>
+                            <th>Product Rating</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for person in persons %}
+                            <tr>
+                                <td>{{ person.customer_id }}</td>
+                                <td>{{ person.gender }}</td>
+                                <td>{{ person.age }}</td>
+                                <td>{{ person.education }}</td>
+                                <td>{{ person.occupation }}</td>
+                                <td>{{ person.marital_status }}</td>
+                                <td>{{ person.product_rating }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+            <button id="substitute" class="btn btn-primary m-3">Mean substitute</button>
+            <p>
+                Substituting missing values with the mean of the column is a simple method to handle missing data.
+            </p>
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Gender</th>
+                            <th>Age</th>
+                            <th>Mean Age</th>
+                            <th>Education</th>
+                            <th>Occupation</th>
+                            <th>Marital Status</th>
+                            <th>Product Rating</th>
+                            <th>Mean Product Rating</th>
+                        </tr>
+                        </thead>
+                        <tbody id="mean_substituted">
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("substitute").addEventListener("click", function () {
+            fetch('/api/person/mean', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    let table = document.getElementById("mean_substituted");
+                    table.innerHTML = "";
+                    data.forEach(person => {
+                        let row = table.insertRow();
+                        row.innerHTML = `
+                    <td>${person.customer_id}</td>
+                    <td>${person.gender}</td>
+                    <td>${person.age}</td>
+                    <td>${person.default_age}</td>
+                    <td>${person.education}</td>
+                    <td>${person.occupation}</td>
+                    <td>${person.marital_status}</td>
+                    <td>${person.product_rating}</td>
+                    <td>${Math.round(person.default_product_rating * 100) / 100}</td>
+                `;
+                    });
+            
+
+                    //location.reload();
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+
 {% endblock %}

@@ -15,7 +15,9 @@ def median_substitute(request):
 
 
 def mean_substitute(request):
-    return render(request, 'mean_substitute.html')
+    #top 10 records
+    persons = Person.objects.all()[:10]
+    return render(request, 'mean_substitute.html', {'persons': persons})
 
 
 def mode_substitute(request):

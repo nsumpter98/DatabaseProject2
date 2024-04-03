@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "missing_data.apps.MissingDataConfig",
-    "rest_api.apps.RestApiConfig"
+    "rest_api.apps.RestApiConfig",
+
 ]
 
 MIDDLEWARE = [

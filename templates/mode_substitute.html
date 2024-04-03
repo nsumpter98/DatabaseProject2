@@ -3,4 +3,133 @@
 {% block content %}
     <h1>Mode substitute</h1>
     <p>Mode substitute is a mode that allows you to substitute a string with another string.</p>
+    
+      <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Data before mode substitution</h5>
+            <p class="card-text">The data before mode substitution is shown below.</p>
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Gender</th>
+                            <th>Age</th>
+                            <th>Education</th>
+                            <th>Occupation</th>
+                            <th>Marital Status</th>
+                            <th>Product Rating</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for person in persons %}
+                            <tr>
+                                <td>{{ person.customer_id }}</td>
+                                <td>{{ person.gender }}</td>
+                                <td>{{ person.age }}</td>
+                                <td>{{ person.education }}</td>
+                                <td>{{ person.occupation }}</td>
+                                <td>{{ person.marital_status }}</td>
+                                <td>{{ person.product_rating }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+            <p class="mt-3">Click button to substitute with mode</p>
+            <button id="substitute" class="btn btn-primary mb-3">mode substitute</button>
+            <p>
+                Substituting missing values with the mode of the column is a simple method to handle missing data.
+            </p>
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Gender</th>
+                            <th>Age</th>
+                     
+                            <th>Education</th>
+                            <th>Mode Education</th>
+                            <th>Occupation</th>
+                            <th>Mode Occupation</th>
+                            <th>Marital Status</th>
+                            <th>Mode Marital Status</th>
+                            <th>Product Rating</th>
+                      
+                        </tr>
+                        </thead>
+                        <tbody id="mode_substituted">
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">Conclusion</h5>
+                    <p class="card-text">The data has been substituted with the mode of the column. The missing values
+                        have
+                        been replaced with the mode of the column.</p>
+
+                    <hr>
+
+                    <p>
+                        The mode is the value that appears most frequently in a data set. The mode is a measure of
+                        central
+                        tendency, like the mean and median. It is used to describe the central tendency of the data.
+                    </p>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("substitute").addEventListener("click", function () {
+            fetch('/api/person/mode', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    let table = document.getElementById("mode_substituted");
+                    table.innerHTML = "";
+                    data.forEach(person => {
+                        let row = table.insertRow();
+                        row.innerHTML = `
+                    <td>${person.customer_id}</td>
+                    <td>${person.gender}</td>
+                    <td>${person.age}</td>
+                  
+                    <td>${person.education}</td>
+                    <td>${person.default_education}</td>
+                    <td>${person.occupation}</td>
+                    <td>${person.default_occupation}</td>
+                    <td>${person.marital_status}</td>
+                    <td>${person.default_marital_status}</td>
+                    <td>${person.product_rating}</td>
+             
+                `;
+                    });
+
+
+                    //location.reload();
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
 {% endblock %}

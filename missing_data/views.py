@@ -11,7 +11,9 @@ def jupyter_notebook(request):
 
 
 def median_substitute(request):
-    return render(request, 'median_substitute.html')
+    # top 10 records
+    persons = Person.objects.all()[:10]
+    return render(request, 'median_substitute.html', {'persons': persons})
 
 
 def mean_substitute(request):
@@ -21,11 +23,15 @@ def mean_substitute(request):
 
 
 def mode_substitute(request):
-    return render(request, 'mode_substitute.html')
+    # top 10 records
+    persons = Person.objects.all()[:10]
+    return render(request, 'mode_substitute.html', {'persons': persons})
 
 
 def ml_substitute(request):
-    return render(request, 'ml_substitute.html')
+    # top 10 records
+    persons = Person.objects.all()[:10]
+    return render(request, 'ml_substitute.html', {'persons': persons})
 
 
 def dev(request):

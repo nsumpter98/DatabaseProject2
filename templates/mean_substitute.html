@@ -41,7 +41,8 @@
                     </table>
                 </div>
             </div>
-            <button id="substitute" class="btn btn-primary m-3">Mean substitute</button>
+            <p class="mt-3">Click button to substitute with mean</p>
+            <button id="substitute" class="btn btn-primary mb-3">Mean substitute</button>
             <p>
                 Substituting missing values with the mean of the column is a simple method to handle missing data.
             </p>
@@ -66,6 +67,23 @@
                         </tbody>
 
                     </table>
+                </div>
+            </div>
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">Conclusion</h5>
+                    <p class="card-text">The data has been substituted with the mean of the column. The missing values
+                        have
+                        been replaced with the mean of the column.</p>
+
+                    <hr>
+
+                    <p>
+                        The mean of the age column is
+                        35. The mean of the product rating column is 4.27.
+                    </p>
+
+
                 </div>
             </div>
         </div>
@@ -100,7 +118,7 @@
                     <td>${Math.round(person.default_product_rating * 100) / 100}</td>
                 `;
                     });
-            
+
 
                     //location.reload();
                 })

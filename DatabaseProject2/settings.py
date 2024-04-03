@@ -27,7 +27,11 @@ SECRET_KEY = "django-insecure-8v2q70xk(grx(3)o5xi^4-s&pa3cxqs#u4e2)ybhn$3p=7dlxu
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "localhost",
+    "*",
+    "database-project-django-frontend.3hfx6a.easypanel.host"
+]
 
 # Application definition
 

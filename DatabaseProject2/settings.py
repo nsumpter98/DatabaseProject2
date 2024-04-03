@@ -35,8 +35,7 @@ ALLOWED_HOSTS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "database-project-django-frontend.3hfx6a.easypanel.host",
-    "cs.sumptersoftware.com"
+    "https://cs.sumptersoftware.com"
 ]
 # Application definition
 

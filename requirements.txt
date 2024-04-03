@@ -2,7 +2,7 @@
 # $ conda create --name <env> --file <this file>
 # platform: osx-arm64
 mysqlclient==2.0.3
-mysql-connector-c==6.1.11
+
 django==4.1
 python-dotenv==1.0.1
 

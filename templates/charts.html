@@ -3,4 +3,244 @@
 {% block content %}
     <h1>Home</h1>
     <p>Welcome to the home page!</p>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <canvas id="ageDistributionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                   
+                     <div class="card-body">
+                        <canvas id="productRatingByOccupationChart"></canvas>
+                    </div>
+                </div>
+            </div>
+               <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <canvas id="maritalStatusChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card" style="--bs-card-height: 100%">
+                    <div class="card-body">
+                        <canvas id="educationLevelChart"></canvas>
+                    </div>
+                </div>
+            </div>
+         
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // You will add your chart initialization scripts here
+        // Example for one chart, repeat similarly for others
+        var ctx = document.getElementById('ageDistributionChart').getContext('2d');
+        var ageDistributionChart = new Chart(ctx, {
+            type: 'bar', // Change type according to what you need: 'bar', 'line', 'pie', etc.
+            data: {
+                labels: [
+                    'Under 18',
+                    '18-24',
+                    '25-34',
+                    '35-44',
+                    '45-54',
+                    '55-64',
+                    '65 or Over'
+                ], // Your labels here
+                datasets: [{
+                    label: 'Age Distribution',
+                    data: [
+                        {{ age_distribution.under_18 }},
+                        {{ age_distribution.age_18_24 }},
+                        {{ age_distribution.age_25_34 }},
+                        {{ age_distribution.age_35_44 }},
+                        {{ age_distribution.age_45_54 }},
+                        {{ age_distribution.age_55_64 }},
+                        {{ age_distribution.over_65 }}
+                    ], // Your data here
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 99, 132, 0.2)'
+                    ],
+                    borderColor: [],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        var ctx = document.getElementById('educationLevelChart').getContext('2d');
+        var educationLevelChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    'High School',
+                    'Batchelor\'s',
+                    'Master\'s',
+                    'Doctarate'
+                ],
+                datasets: [{
+                    label: 'Education Level',
+                    data: [
+                        {{ education_level.high_school }},
+                        {{ education_level.bachelor }},
+                        {{ education_level.masters }},
+                        {{ education_level.doctorate }}
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                    ],
+                    borderColor: [],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        
+        //occupations
+{#        Digital Marketing#}
+{#Software Engineer#}
+{#Finance#}
+{#Sales#}
+{#Teacher#}
+{#Operations#}
+{#Marketing#}
+{##}
+{#Construction#}
+{#Data Analyst#}
+{#Software Developer#}
+{#HR#}
+{#Engineer#}
+
+        
+        var ctx = document.getElementById('productRatingByOccupationChart').getContext('2d');
+        var productRatingByOccupationChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    'Digital Marketing',
+                    'Software Engineer',
+                    'Finance',
+                    'Sales',
+                    'Teacher',
+                    'Operations',
+                    'Marketing',
+                    'Construction',
+                    'Data Analyst',
+                    'Software Developer',
+                    'HR',
+                    'Engineer'
+                ],
+                datasets: [{
+                    label: 'Product Rating by Occupation',
+                    data: [
+                        {{ product_rating_by_occupation.digital_marketing }},
+                        {{ product_rating_by_occupation.software_engineer }},
+                        {{ product_rating_by_occupation.finance }},
+                        {{ product_rating_by_occupation.sales }},
+                        {{ product_rating_by_occupation.teacher }},
+                        {{ product_rating_by_occupation.operations }},
+                        {{ product_rating_by_occupation.marketing }},
+                        {{ product_rating_by_occupation.construction }},
+                        {{ product_rating_by_occupation.data_analyst }},
+                        {{ product_rating_by_occupation.software_developer }},
+                        {{ product_rating_by_occupation.hr }},
+                        {{ product_rating_by_occupation.engineer }}
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                //do horizontal bar
+                indexAxis: 'y',
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        
+        var ctx = document.getElementById('maritalStatusChart').getContext('2d');
+        //only married and single
+        
+        var maritalStatusChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: [
+                    'Married',
+                    'Single'
+                ],
+                datasets: [{
+                    label: 'Marital Status',
+                    data: [
+                        {{ marital_status.married }},
+                        {{ marital_status.single }}
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                    ],
+                    borderColor: [],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        
+
+        
+        
+
+
+    </script>
 {% endblock %}
